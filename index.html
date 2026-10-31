@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>機電設備操作安全培訓網</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Industrial Theme Styles */
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #f3f4f6; /* gray-100 */
+            color: #111827; /* gray-900 */
+        }
+        
+        /* Black and Yellow Warning Stripes */
+        .bg-stripes {
+            background-image: repeating-linear-gradient(
+                -45deg,
+                #000000,
+                #000000 20px,
+                #eab308 20px, /* yellow-500 */
+                #eab308 40px
+            );
+        }
+        
+        .border-stripes {
+            border: 4px solid;
+            border-image: repeating-linear-gradient(
+                -45deg,
+                #000 0,
+                #000 10px,
+                #eab308 10px,
+                #eab308 20px
+            ) 4;
+        }
+
+        /* E-Stop Button Pulsing Animation */
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .e-stop-btn {
+            animation: pulse-red 2s infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e5e7eb;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #eab308;
+            border-radius: 4px;
+        }
+        
+        canvas {
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative flex flex-col items-center">
+
+    <!-- Header / Navigation -->
+    <header class="w-full bg-white border-b border-amber-500 sticky top-0 z-40 shadow-md">
+        <div class="h-2 w-full bg-stripes"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-amber-500 rounded flex items-center justify-center text-black font-bold text-xl">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-amber-700 tracking-wider">機電設備安全網</h1>
+                    <p class="text-xs text-gray-500">Industrial & Auto Equipment Safety</p>
+                </div>
+            </div>
+            
+            <!-- E-Stop Button -->
+            <button onclick="toggleModal('estop-modal')" class="e-stop-btn flex items-center justify-center w-16 h-16 bg-red-600 rounded-full border-4 border-amber-400 hover:bg-red-500 transition-colors active:scale-95 shadow-lg shadow-red-900/50">
+                <span class="text-white font-black text-sm text-center leading-tight">E-STOP<br>急停</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+        
+        <!-- Hero Section -->
+        <section class="bg-white rounded-lg p-6 md:p-10 border-stripes shadow-md relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">安全第一，防護至上</h2>
+            </div>
+            <div class="absolute -right-20 -bottom-20 opacity-5 text-gray-900">
+                <svg class="w-96 h-96" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4.5l6.5 13h-13L12 6.5zM11 10h2v5h-2v-5zm0 6h2v2h-2v-2z"/></svg>
+            </div>
+        </section>
+
+        <!-- 1. Six Zones Section -->
+        <section>
+            <h3 class="text-2xl font-bold text-amber-700 mb-6 flex items-center gap-2">
+                <span class="bg-amber-500 w-2 h-8 block"></span>
+                設備六大分區規範 (整合機械加工與汽車保修)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Zone 1 -->
+                <div class="bg-white border-t-4 border-amber-500 rounded shadow-md p-6 hover:shadow-lg transition flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-3 bg-gray-100 rounded-full text-amber-600 shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900">旋轉加工設備安全</h4>
+                    </div>
+                    <div class="space-y-4 text-gray-600 text-sm leading-relaxed flex-1">
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【作業前整備與個人防護 (PPE)】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>涵蓋機具：傳統/CNC車床、銑床、鑽床、平面磨床等。</li>
+                                <li class="text-red-600 font-bold">嚴禁配戴手套：旋轉主軸極易捲入手套纖維，導致嚴重的斷肢或壓傷事故。</li>
+                                <li>服儀要求：長髮必須完全盤妥並配戴工作帽；禁止穿著寬鬆衣物、領帶或配戴項鍊首飾；長袖袖口必須扣緊。</li>
+                                <li>防護裝備：必須全程配戴符合 ANSI 規範之工業級安全眼鏡或全罩式防護面罩，防止高溫鐵屑或碎裂刀具刺傷眼部。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【操作中安全與防護裝置】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>啟動前務必確認工件與刀具已牢固夾持，並移除夾頭扳手。</li>
+                                <li>加工進行時，必須全程放下<span class="text-amber-600 font-bold">切屑防護罩 (Chip Guard)</span>，以阻擋切削液噴濺與切屑飛出。</li>
+                                <li>操作者不得離開運轉中的機台，若需離開必須完全停機。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【停機與廢料清理規範】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>量測工件尺寸或變更齒輪轉速前，必須確認主軸已「完全靜止」。</li>
+                                <li>清理機台時，<span class="text-red-600 font-bold">嚴禁用手直接抓取鐵屑</span>（切屑通常極為銳利且高溫）。必須使用專用鐵鉤或毛刷清理。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【鐵屑廢料與切削液環保處理】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><span class="text-amber-600 font-bold">鐵屑分離與回收：</span>金屬鐵屑表面常附著高溫及銳利邊緣，且含有切削油。需使用脫油機或靜置瀝乾，與切削液妥善分離。</li>
+                                <li><span class="text-amber-600 font-bold">分類丟棄：</span>瀝乾後的鐵屑應倒入「金屬廢料專用回收桶」，<span class="text-red-600 font-bold">嚴禁混入一般垃圾</span>，以利鋼鐵廠鎔鑄回收。</li>
+                                <li><span class="text-amber-600 font-bold">廢液處理：</span>變質或過期的廢切削液屬有害廢棄物，需委託合格環保業者處理，絕對禁止倒入水溝，防止環境污染。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zone 2 -->
+                <div class="bg-white border-t-4 border-amber-500 rounded shadow-md p-6 hover:shadow-lg transition flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-3 bg-gray-100 rounded-full text-amber-600 shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900">車輛頂昇設備安全</h4>
+                    </div>
+                    <div class="space-y-4 text-gray-600 text-sm leading-relaxed flex-1">
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【頂昇前設備與車況檢查】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>涵蓋機具：雙柱/四柱舉升機、剪式頂昇機、千斤頂與安全頂車架等。</li>
+                                <li>每日作業前，目視檢查液壓油管是否有滲漏、鋼纜是否有斷股、托盤橡膠墊是否磨損。</li>
+                                <li>確認車輛總重未超過舉升機之安全工作荷重 (Safe Working Load, SWL)。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【定位與初步頂昇測試】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>嚴格尋找車廠規範之<span class="text-amber-600 font-bold">舉升支撐點 (Lift Points)</span>（通常位於車側裙邊強化處或大樑），避免壓毀底盤電池或油管。</li>
+                                <li>先將車輛稍微頂起離地約 10-15 公分，稍微搖晃車體以<span class="text-amber-600 font-bold">確認重心平衡且托盤不滑動</span>，方可繼續舉升。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【嚙合安全鎖與車下作業】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li class="text-red-600 font-bold">致命錯誤預防：嚴禁在僅靠「液壓系統」支撐的情況下進入車底。</li>
+                                <li>舉升至作業高度後，必須操作降下撥桿，使機構確實落入並卡緊<span class="text-gray-900 font-bold border-b border-amber-500">機械安全鎖止 (Safety Lock)</span> 中。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【降下車輛規範】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>降下前，大聲覆頌並確認車底淨空（無人員、工具箱、廢油回收桶）。</li>
+                                <li>操作程序：先微幅上升以解除安全鎖壓力 -> 拉開安全鎖解鎖裝置 -> 緩慢且平順地降下車輛。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【廢油回收與防漏防滑處置】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><span class="text-amber-600 font-bold">廢油分類集中：</span>廢機油、廢變速箱油、廢煞車油等<span class="text-red-600 font-bold">嚴禁混合盛裝</span>，必須依種類分別倒入專用廢油回收桶。</li>
+                                <li><span class="text-amber-600 font-bold">二次防護與儲存：</span>廢油回收區必須配置「二次防護底盤 (Spill Pallet)」，防止桶身破裂時油料外洩。儲存區需遠離火源並保持通風。</li>
+                                <li><span class="text-amber-600 font-bold">地面洩漏處理：</span>油漬滴漏需第一時間使用專用吸油棉或吸油砂覆蓋吸收，再以除油劑刷洗。<span class="text-red-600 font-bold">未及時清理的油漬是人員滑倒及火災的最大隱患。</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zone 3 -->
+                <div class="bg-white border-t-4 border-amber-500 rounded shadow-md p-6 hover:shadow-lg transition flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-3 bg-gray-100 rounded-full text-amber-600 shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900">高壓與自動化設備安全</h4>
+                    </div>
+                    <div class="space-y-4 text-gray-600 text-sm leading-relaxed flex-1">
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【電動車高壓系統 (HV) 斷電程序】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>確認車輛鑰匙移出車外，並拔除 12V 輔助電瓶負極。</li>
+                                <li>依原廠維修手冊指示，穿戴 Class 0 絕緣手套，拔除 <span class="text-amber-600 font-bold">維修開關 (Service Plug)</span>。</li>
+                                <li>維修開關拔除後，必須隨身保管（LOTO精神），並靜置 10-15 分鐘待電容放電。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【零電位驗證與雙手操作】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>拆解高壓部件前，必須使用具備 CAT III 1000V 等級之三用電表，進行<span class="text-amber-600 font-bold">零電位驗證</span>，確認電壓降至安全範圍。</li>
+                                <li>對於自動化沖床或壓鑄設備，必須具備<span class="text-gray-900 font-bold border-b border-amber-500">雙手操作按鍵</span>設計，強制操作者雙手離開危險區域才能啟動設備。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zone 4 -->
+                <div class="bg-white border-t-4 border-amber-500 rounded shadow-md p-6 hover:shadow-lg transition flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-3 bg-gray-100 rounded-full text-amber-600 shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900">廠務與起重設備安全</h4>
+                    </div>
+                    <div class="space-y-4 text-gray-600 text-sm leading-relaxed flex-1">
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【天車起重與吊掛作業】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>涵蓋機具：固定式起重機(天車)、移動式天車、引擎吊架等。</li>
+                                <li>吊鉤必須具備完好無損且能自動閉合的<span class="text-amber-600 font-bold">防滑舌片</span>，防止鋼珠或吊索脫落。</li>
+                                <li>嚴禁超載 (超過 SWL)；嚴禁人員站立或通行於懸吊物正下方；起吊時應確認吊索夾角，避免張力過大斷裂。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【高壓流體與空壓系統】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>空壓機須定期排放冷凝水，並每年進行壓力容器檢查。吹塵槍應配備減壓噴嘴。</li>
+                                <li>檢查高壓液壓管路是否洩漏時，<span class="text-red-600 font-bold">絕對禁止徒手觸摸管路</span>，高壓油柱會刺穿皮膚進入血液造成致命傷害。必須使用木板或紙板測試。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【LOTO 能源隔離上鎖與掛牌】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>凡進行設備內部維修、清除卡料前，必須實施 <span class="text-amber-600 font-bold">LOTO (Lockout / Tagout)</span>。</li>
+                                <li>切斷主電源，掛上專屬個人鎖，並懸掛「維修中禁止操作」警示牌，確保只有上鎖者本人能解鎖，防止他人誤送電造成慘劇。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zone 5 -->
+                <div class="bg-white border-t-4 border-amber-500 rounded shadow-md p-6 hover:shadow-lg transition flex flex-col md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-3 bg-gray-100 rounded-full text-amber-600 shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900">高溫與銲接作業安全</h4>
+                    </div>
+                    <div class="space-y-4 text-gray-600 text-sm leading-relaxed flex-1">
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【動火前防護與環境確認】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>涵蓋機具：電銲機、氬銲機、乙炔切割器、熱風槍與高溫烘箱等。</li>
+                                <li>作業半徑 10 公尺內<span class="text-red-600 font-bold">嚴禁堆放易燃物或廢油桶</span>，必要時必須使用防火毯遮蔽周遭可燃物並備妥滅火器。</li>
+                                <li>防護裝備：必須配戴合格之濾光銲接面罩（防強光與紫外線灼傷角膜），並穿戴阻燃皮革手套與圍裙。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【鋼瓶管理與氣體安全】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>高壓氣體鋼瓶（如氧氣、乙炔、氬氣）必須直立放置，並以鐵鍊牢固綁在固定架上，防止傾倒造成閥門斷裂。</li>
+                                <li><span class="text-red-600 font-bold">嚴禁沾染油脂：</span>接觸氧氣鋼瓶閥門時，手套與工具絕對不可有任何油污，高壓氧氣接觸油脂極易引發劇烈自燃爆炸。</li>
+                                <li>乙炔管路必須安裝「防爆逆火安全閥」，防止火燄回流至鋼瓶內發生巨爆。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【通風與金屬燻煙防範】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>銲接過程會產生大量有毒的金屬燻煙（如錳、鋅等），長久吸入將造成神經不可逆損害甚至中毒。</li>
+                                <li>室內作業必須啟動<span class="text-amber-600 font-bold">局部排氣裝置（如吸煙臂）</span>，將有害氣體直接抽離；若於局限空間或車底作業則需配備強制送風呼吸設備。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zone 6 -->
+                <div class="bg-white border-t-4 border-amber-500 rounded shadow-md p-6 hover:shadow-lg transition flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-3 bg-gray-100 rounded-full text-amber-600 shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900">化學品與噴塗作業安全</h4>
+                    </div>
+                    <div class="space-y-4 text-gray-600 text-sm leading-relaxed flex-1">
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【危害通識 (HazCom) 與 SDS】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>涵蓋項目：機件清洗劑、剎車盤清潔劑、汽車烤漆、脫脂劑與特殊潤滑油。</li>
+                                <li>所有化學品容器（包含自行分裝的小瓶）必須張貼符合 GHS 規範之<span class="text-amber-600 font-bold">危害圖示與警語標籤</span>。</li>
+                                <li>現場必須備妥並讓員工隨時可查閱「安全資料表 (SDS)」，以掌握若誤觸眼睛或誤食時的正確急救處置。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【通風與呼吸道防護】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>噴漆與溶劑清洗作業易產生高濃度揮發性有機物 (VOCs)，必須在配備水洗台或活性碳過濾的<span class="text-amber-600 font-bold">專屬通風室或烤漆爐</span>內進行。</li>
+                                <li><span class="text-red-600 font-bold">防護裝備要求：</span>嚴禁僅配戴一般外科口罩或布口罩。必須配戴搭配「有機蒸氣濾罐 (黑邊標示)」的防毒面具，並穿著防化學溶劑手套與防護衣。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-gray-900 font-bold mb-1 border-b border-gray-200 pb-1">【防爆與靜電消除】</h5>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>溶劑揮發氣體極易被火花引燃。作業區內嚴禁任何明火、抽菸，且所有電器、照明設備必須具備<span class="text-gray-900 font-bold border-b border-amber-500">防爆等級 (Explosion-proof)</span>。</li>
+                                <li>進行大量易燃油料或溶劑分裝抽取時，必須確實連接<span class="text-amber-600 font-bold">接地線 (Grounding)</span>，以消除摩擦產生的靜電火花，防止氣爆。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Interactive Simulator Section -->
+        <section class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden flex flex-col md:flex-row">
+            <div class="w-full md:w-1/3 p-6 bg-gray-50 border-r border-gray-200 flex flex-col">
+                <h3 class="text-2xl font-bold text-amber-700 mb-2">安全防護模擬器</h3>
+                <p class="text-gray-500 text-sm mb-6">操作面板體驗防護裝置的重要性。</p>
+                
+                <div class="flex gap-2 mb-6 bg-gray-200 p-1 rounded">
+                    <button id="btn-sim-rotary" onclick="switchSim('rotary')" class="px-4 py-2 text-sm font-medium rounded bg-amber-500 text-black shadow transition w-1/2">旋轉加工</button>
+                    <button id="btn-sim-lift" onclick="switchSim('lift')" class="px-4 py-2 text-sm font-medium rounded text-gray-600 hover:text-gray-900 transition w-1/2">舉升設備</button>
+                </div>
+
+                <!-- Rotary Controls -->
+                <div id="control-rotary" class="space-y-4">
+                    <div class="bg-white p-4 rounded border border-gray-300">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" onchange="toggleGuard(this.checked)" class="form-checkbox h-5 w-5 text-amber-500 rounded bg-white border-gray-400">
+                            <span class="text-gray-900 font-medium">放下切屑防護罩 (Guard)</span>
+                        </label>
+                    </div>
+                    <p id="rotary-status" class="text-red-600 font-bold animate-pulse text-sm">⚠ 警告：防護罩未關閉，存在噴濺風險！</p>
+                </div>
+
+                <!-- Lift Controls -->
+                <div id="control-lift" class="space-y-4" style="display: none;">
+                    <div class="bg-white p-4 rounded border border-gray-300 flex gap-2">
+                        <button onmousedown="startLift('up')" onmouseup="stopLift()" onmouseleave="stopLift()" ontouchstart="startLift('up')" ontouchend="stopLift()" class="flex-1 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded active:scale-95 transition">按住舉升</button>
+                    </div>
+                    <div class="bg-white p-4 rounded border border-gray-300">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" id="toggle-lock" onchange="toggleLock(this.checked)" class="form-checkbox h-5 w-5 text-green-500 rounded bg-white border-gray-400">
+                            <span class="text-gray-900 font-medium">嚙合機械安全鎖</span>
+                        </label>
+                    </div>
+                    <p id="lift-status" class="text-red-600 font-bold animate-pulse text-sm">⚠ 警告：僅依賴液壓，未啟動機械鎖！有墜落風險。</p>
+                </div>
+                
+                <div class="mt-auto pt-6">
+                    <p class="text-xs text-gray-400">※ 此為 2D 簡化演示，實際設備操作請依原廠手冊為準。</p>
+                </div>
+            </div>
+            <div class="w-full md:w-2/3 h-[400px] md:h-auto bg-gray-100 relative">
+                <canvas id="sim-canvas" class="absolute inset-0 w-full h-full"></canvas>
+            </div>
+        </section>
+
+        <!-- 3. Safety Quiz Section -->
+        <section id="quiz-section">
+            <h3 class="text-2xl font-bold text-amber-700 mb-6 flex items-center gap-2">
+                <span class="bg-amber-500 w-2 h-8 block"></span>
+                進階安全與環保線上測驗 (共 10 題)
+            </h3>
+            
+            <div class="bg-white rounded-lg p-6 md:p-10 shadow-md border border-gray-200">
+                <form id="quiz-form" onsubmit="handleQuizSubmit(event)">
+                    <div class="space-y-8">
+                        <!-- Q1 -->
+                        <div class="bg-gray-50 p-4 rounded border-l-4 border-blue-500">
+                            <p class="text-lg text-gray-900 mb-3">1. 關於旋轉加工設備（如車床、鑽床）的作業前整備與操作規範，下列敘述何者<span class="text-red-600 font-bold">錯誤</span>，甚至會帶來致命危險？</p>
+                            <div class="space-y-2">
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q1" value="A" class="form-radio text-amber-500 mt-1" required> 
+                                    <span>A. 長髮必須綁妥並戴工作帽，且衣服袖口必須扣緊，以防止被高速旋轉部件捲入。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q1" value="B" class="form-radio text-amber-500 mt-1"> 
+                                    <span>B. 為防鐵屑割傷雙手並保持手部清潔，<span class="font-bold underline text-gray-900">必須配戴厚實的棉紗手套</span>來操作旋轉加工機具。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q1" value="C" class="form-radio text-amber-500 mt-1"> 
+                                    <span>C. 必須全程放下切屑防護罩 (Chip Guard) 操作；清理機台必須完全停機。</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q2 -->
+                        <div class="bg-gray-50 p-4 rounded border-l-4 border-blue-500">
+                            <p class="text-lg text-gray-900 mb-3">2. 關於金屬加工產生的「鐵屑廢料」與「廢切削液」的處理原則，下列何者正確？</p>
+                            <div class="space-y-2">
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q2" value="A" class="form-radio text-amber-500 mt-1" required> 
+                                    <span>A. 鐵屑很軟，停機後可直接用雙手抓取清理，並直接丟入一般垃圾桶即可。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q2" value="B" class="form-radio text-amber-500 mt-1"> 
+                                    <span>B. 鐵屑需與切削液妥善分離，使用專用鐵鉤清理，並置於「金屬廢料專用回收桶」，廢液依環保規範集中處理。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q2" value="C" class="form-radio text-amber-500 mt-1"> 
+                                    <span>C. 為了節省空間，可以將廢切削液直接倒入水槽排放。</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q3 -->
+                        <div class="bg-gray-50 p-4 rounded border-l-4 border-blue-500">
+                            <p class="text-lg text-gray-900 mb-3">3. 技師使用雙柱舉升機將車輛頂高，準備進入車底。在進入車底前，最關鍵的安全確保動作是？</p>
+                            <div class="space-y-2">
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q3" value="A" class="form-radio text-amber-500 mt-1" required> 
+                                    <span>A. 只要聽見液壓馬達聲音停止，即可戴上安全帽進入車底作業。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q3" value="B" class="form-radio text-amber-500 mt-1"> 
+                                    <span>B. 在車底放置一個廢油回收桶作為臨時支撐。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q3" value="C" class="form-radio text-amber-500 mt-1"> 
+                                    <span>C. 必須操作降下撥桿，確認舉升機之「機械安全鎖止 (Safety Lock)」已完全嚙合承受重量。</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q4 -->
+                        <div class="bg-gray-50 p-4 rounded border-l-4 border-blue-500">
+                            <p class="text-lg text-gray-900 mb-3">4. 汽車保修更換下來的「廢機油」與「廢液」，其標準處理與工安預防程序為何？</p>
+                            <div class="space-y-2">
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q4" value="A" class="form-radio text-amber-500 mt-1" required> 
+                                    <span>A. 所有廢油都可以混在同一個鐵桶中，只要蓋子蓋緊就好。地面有油漬不用理會，等下班再一起掃。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q4" value="B" class="form-radio text-amber-500 mt-1"> 
+                                    <span>B. 依油品分類倒入具備二次防護底盤的專用回收桶；地面滴漏的油漬必須第一時間用吸油棉清除，防止人員滑倒。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q4" value="C" class="form-radio text-amber-500 mt-1"> 
+                                    <span>C. 用木屑直接灑在廢油回收桶內吸滿即可，可以直接當作一般可燃垃圾丟棄。</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q5 -->
+                        <div class="bg-gray-50 p-4 rounded border-l-4 border-blue-500">
+                            <p class="text-lg text-gray-900 mb-3">5. 進行純電動車(BEV)高壓電池模組拆解維修時，為確保絕緣安全與零電位，下列程序何者最正確？</p>
+                            <div class="space-y-2">
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q5" value="A" class="form-radio text-amber-500 mt-1" required> 
+                                    <span>A. 只要拔除 12V 鉛酸電瓶的負極接頭，整台車高壓系統就會自動斷電，可直接維修。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q5" value="B" class="form-radio text-amber-500 mt-1"> 
+                                    <span>B. 拔除維修開關 (Service Plug) 並隨身保管，靜置 10-15 分鐘後，使用專用電表進行零電位驗證。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q5" value="C" class="form-radio text-amber-500 mt-1"> 
+                                    <span>C. 拔除維修開關後立刻拿普通扳手拆卸橘色高壓線纜，以加快維修效率。</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q6 -->
+                        <div class="bg-gray-50 p-4 rounded border-l-4 border-blue-500">
+                            <p class="text-lg text-gray-900 mb-3">6. 承上題，進行電動車高壓「零電位驗證」時，對電表與防護裝備的標準要求是？</p>
+                            <div class="space-y-2">
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q6" value="A" class="form-radio text-amber-500 mt-1" required> 
+                                    <span>A. 必須穿戴合格的 Class 0 絕緣手套，並使用具備 CAT III 1000V 等級以上的三用電表。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q6" value="B" class="form-radio text-amber-500 mt-1"> 
+                                    <span>B. 戴一般的醫用乳膠手套即可，使用普通的家用測電筆測量。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q6" value="C" class="form-radio text-amber-500 mt-1"> 
+                                    <span>C. 不需要戴手套，因為只要有切斷電源就絕對不會有餘電。</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q7 -->
+                        <div class="bg-gray-50 p-4 rounded border-l-4 border-blue-500">
+                            <p class="text-lg text-gray-900 mb-3">7. 機電人員準備進入大型設備內部清除卡料，為防止他人誤觸開關送電，必須嚴格執行何種程序？</p>
+                            <div class="space-y-2">
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q7" value="A" class="form-radio text-amber-500 mt-1" required> 
+                                    <span>A. 執行 LOTO (Lockout/Tagout) 能源隔離上鎖與掛牌程序，每位維修人員掛上專屬個人鎖。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q7" value="B" class="form-radio text-amber-500 mt-1"> 
+                                    <span>B. 在控制面板上貼一張便利貼寫「維修中勿動」。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q7" value="C" class="form-radio text-amber-500 mt-1"> 
+                                    <span>C. 只要把機器總電源關掉就好，不需要掛鎖。</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q8 -->
+                        <div class="bg-gray-50 p-4 rounded border-l-4 border-blue-500">
+                            <p class="text-lg text-gray-900 mb-3">8. 關於廠房天車與起重吊掛作業安全，下列敘述何者<span class="text-red-600 font-bold">錯誤</span>？</p>
+                            <div class="space-y-2">
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q8" value="A" class="form-radio text-amber-500 mt-1" required> 
+                                    <span>A. 吊鉤必須具備能自動回彈閉合的防滑舌片，防止吊索脫落。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q8" value="B" class="form-radio text-amber-500 mt-1"> 
+                                    <span>B. 吊掛時必須注意吊索的夾角，角度越大單一吊索承受張力會急劇增加。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q8" value="C" class="form-radio text-amber-500 mt-1"> 
+                                    <span>C. 為求精準就位，人員應該直接站在懸吊物的正下方進行指揮與引導。</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q9 -->
+                        <div class="bg-gray-50 p-4 rounded border-l-4 border-blue-500">
+                            <p class="text-lg text-gray-900 mb-3">9. 在檢修高壓液壓系統（如液壓床、舉升機油壓缸）時，若懷疑管路有微小洩漏，應如何尋找漏點？</p>
+                            <div class="space-y-2">
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q9" value="A" class="form-radio text-amber-500 mt-1" required> 
+                                    <span>A. 啟動加壓後，用手指沿著油管表面慢慢摸索，感覺有液體噴出的地方就是漏點。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q9" value="B" class="form-radio text-amber-500 mt-1"> 
+                                    <span>B. 使用打火機靠近管路，觀察是否有火苗閃動。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q9" value="C" class="form-radio text-amber-500 mt-1"> 
+                                    <span>C. 絕對禁止用手直接觸摸，應使用厚紙板或木板靠近管路測試，以免高壓流體刺穿皮膚造成截肢。</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q10 -->
+                        <div class="bg-gray-50 p-4 rounded border-l-4 border-blue-500">
+                            <p class="text-lg text-gray-900 mb-3">10. 廠區內若發生人員被自動化機台或車床夾捲的緊急事故，旁人第一時間的標準處置為何？</p>
+                            <div class="space-y-2">
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q10" value="A" class="form-radio text-amber-500 mt-1" required> 
+                                    <span>A. 趕快過去跟機台用力拉扯，試圖把同事硬拽出來。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q10" value="B" class="form-radio text-amber-500 mt-1"> 
+                                    <span>B. 立即拍擊機台上的「紅色緊急停止鈕(E-Stop)」斷電，接著大聲呼救請求支援。</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+                                    <input type="radio" name="q10" value="C" class="form-radio text-amber-500 mt-1"> 
+                                    <span>C. 先拿出手機拍照記錄事故現場，再慢慢走去辦公室報告廠長。</span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="mt-8 pt-6 border-t border-gray-200 flex justify-center">
+                        <button type="submit" class="px-10 py-3 bg-amber-500 text-black font-bold text-lg rounded hover:bg-amber-400 transition shadow-md">
+                            提交測驗 (Submit Quiz)
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        
+        <footer class="text-center text-gray-500 text-sm pb-8">
+            &copy; 2024 機電設備安全培訓網. All Rights Reserved. 示範教學用途。
+        </footer>
+    </main>
+
+    <!-- Modal: Message / Alert (Replacement for native alert) -->
+    <div id="msg-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="bg-white border border-gray-200 rounded-lg shadow-2xl max-w-sm w-full p-6 text-center transform transition-all scale-95 opacity-0" id="msg-modal-content">
+            <div id="msg-icon" class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center text-3xl font-bold bg-red-100 text-red-600">
+                ✗
+            </div>
+            <h3 id="msg-title" class="text-xl font-bold text-gray-900 mb-2">錯誤</h3>
+            <p id="msg-text" class="text-gray-600 mb-6">發生錯誤。</p>
+            <button onclick="closeMsgModal()" class="w-full py-2 px-4 bg-gray-200 hover:bg-gray-300 text-gray-900 rounded font-medium transition">關閉</button>
+        </div>
+    </div>
+
+    <!-- Modal: E-Stop -->
+    <div id="estop-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+        <div class="bg-white border-4 border-red-600 rounded-lg shadow-[0_0_30px_rgba(220,38,38,0.5)] max-w-4xl w-full p-0 overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="bg-red-600 p-4 text-center shrink-0">
+                <h2 class="text-3xl font-black text-white uppercase tracking-widest flex items-center justify-center gap-3">
+                    <svg class="w-8 h-8 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    緊急應變處置標準作業程序 (SOP)
+                </h2>
+            </div>
+            <div class="p-6 md:p-8 overflow-y-auto space-y-6">
+                <div class="bg-stripes h-2 w-full rounded"></div>
+                
+                <p class="text-gray-700 text-sm md:text-base border-b border-gray-200 pb-4">
+                    當廠區發生人員夾捲、感電、墜落或設備起火等重大工安事故時，所有現場人員必須嚴格遵守以下四步驟，以將傷害降至最低並避免二次事故。
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-5 rounded-lg border-l-4 border-red-500 shadow-sm relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 opacity-10 text-9xl font-black text-red-500">1</div>
+                        <div class="flex items-center gap-3 mb-3 relative z-10">
+                            <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white font-bold">1</div>
+                            <h4 class="font-bold text-gray-900 text-xl">立即斷電隔離 (Power Off)</h4>
+                        </div>
+                        <div class="space-y-2 text-gray-600 text-sm relative z-10">
+                            <p><strong class="text-gray-900">操作：</strong> 第一時間拍擊機台上最靠近的<span class="text-red-600">紅色蘑菇頭緊急停止鈕 (E-Stop)</span>。</p>
+                            <p><strong class="text-gray-900">感電事故特例：</strong> 若發生人員觸電，<span class="text-red-600 font-bold">絕對禁止徒手拉扯傷者</span>。必須尋找總電源開關箱切斷電源，或使用乾燥的絕緣體（如木棍、塑膠管）將觸電者與帶電體分離。</p>
+                            <p><strong class="text-gray-900">目的：</strong> 終止機械運動與切斷能量來源，防止傷害繼續擴大。</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-5 rounded-lg border-l-4 border-orange-500 shadow-sm relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 opacity-10 text-9xl font-black text-orange-500">2</div>
+                        <div class="flex items-center gap-3 mb-3 relative z-10">
+                            <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">2</div>
+                            <h4 class="font-bold text-gray-900 text-xl">大聲呼救淨空 (Call Help)</h4>
+                        </div>
+                        <div class="space-y-2 text-gray-600 text-sm relative z-10">
+                            <p><strong class="text-gray-900">操作：</strong> 以最大音量呼叫周遭同事：「有人受傷了！快來幫忙！」並指定特定人員協助（例如：「穿藍衣服的，請去打 119！」）。</p>
+                            <p><strong class="text-gray-900">淨空管制：</strong> 立即疏散非相關人員離開危險區域。若有化學品洩漏或起火疑慮，應向上風處撤離。</p>
+                            <p><strong class="text-gray-900">目的：</strong> 獲取人力支援，並防止其他不知情人員進入危險區域引發連環事故。</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-5 rounded-lg border-l-4 border-amber-500 shadow-sm relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 opacity-10 text-9xl font-black text-amber-500">3</div>
+                        <div class="flex items-center gap-3 mb-3 relative z-10">
+                            <div class="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-black font-bold">3</div>
+                            <h4 class="font-bold text-gray-900 text-xl">初步急救處置 (First Aid)</h4>
+                        </div>
+                        <div class="space-y-2 text-gray-600 text-sm relative z-10">
+                            <p><strong class="text-gray-900">評估：</strong> 確認現場環境安全無虞後，方可接觸傷者。評估傷者意識、呼吸與脈搏。</p>
+                            <p><strong class="text-gray-900">處置：</strong> 若大出血，立即尋找乾淨衣物進行直接加壓止血。若失去呼吸心跳，具備急救證照者應立即實施 CPR 與使用 AED。</p>
+                            <p><strong class="text-gray-900 text-red-600">禁忌：</strong> 若懷疑傷者有頸椎或脊椎損傷（如高處墜落），<span class="font-bold">除非現場有爆炸或起火的立即危險，否則絕對禁止移動傷者</span>，以免造成永久性癱瘓。</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-5 rounded-lg border-l-4 border-green-500 shadow-sm relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 opacity-10 text-9xl font-black text-green-500">4</div>
+                        <div class="flex items-center gap-3 mb-3 relative z-10">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">4</div>
+                            <h4 class="font-bold text-gray-900 text-xl">通報與現場保留 (Report)</h4>
+                        </div>
+                        <div class="space-y-2 text-gray-600 text-sm relative z-10">
+                            <p><strong class="text-gray-900">外部通報：</strong> 撥打 119。通報時需清楚說明：發生地點、事故類型（如斷肢、觸電）、傷患人數與狀況、目前已做處置。</p>
+                            <p><strong class="text-gray-900">內部通報：</strong> 立即通知直屬廠長、環安衛 (EHS) 部門與廠護人員。</p>
+                            <p><strong class="text-gray-900">現場保留：</strong> 事故現場除為了救人或防止災害擴大外，必須拉起封鎖線<span class="text-amber-600 font-bold">保持原狀</span>，嚴禁擅自清理或復原，以利後續工安事故調查與勞檢處勘驗。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pt-4 border-t border-gray-200">
+                    <button onclick="toggleModal('estop-modal')" class="w-full py-4 bg-gray-200 text-gray-900 font-bold rounded-lg hover:bg-gray-300 transition uppercase tracking-widest border border-gray-300 shadow-md text-lg">
+                        我已熟讀並了解緊急應變 SOP (關閉面板)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // Modal Handlers
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            if(modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            } else {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function showMsg(title, text, isSuccess = false) {
+            document.getElementById('msg-title').innerText = title;
+            document.getElementById('msg-text').innerText = text;
+            const icon = document.getElementById('msg-icon');
+            const content = document.getElementById('msg-modal-content');
+            
+            if(isSuccess) {
+                icon.className = 'w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center text-3xl font-bold bg-green-100 text-green-600';
+                icon.innerText = '✓';
+            } else {
+                icon.className = 'w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center text-3xl font-bold bg-red-100 text-red-600';
+                icon.innerText = '✗';
+            }
+
+            const modal = document.getElementById('msg-modal');
+            modal.classList.remove('hidden');
+            
+            // Animation trick
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeMsgModal() {
+            const modal = document.getElementById('msg-modal');
+            const content = document.getElementById('msg-modal-content');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        // Quiz Logic
+        function handleQuizSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            
+            // Correct answers for 10 questions:
+            const answers = {
+                q1: 'B', q2: 'B', q3: 'C', q4: 'B', q5: 'B',
+                q6: 'A', q7: 'A', q8: 'C', q9: 'C', q10: 'B'
+            };
+
+            let score = 0;
+            let allAnswered = true;
+            for(let key in answers) {
+                if(!formData.get(key)) {
+                    allAnswered = false;
+                } else if(formData.get(key) === answers[key]) {
+                    score++;
+                }
+            }
+
+            if(!allAnswered) {
+                showMsg('注意', '請回答所有的問題才能送出測驗。');
+                return;
+            }
+
+            if(score === 10) {
+                showMsg('測驗通過', '恭喜您獲得 100 分滿分！您已具備所有核心安全知識與廢棄物處理觀念。', true);
+            } else {
+                showMsg('測驗未通過', `您的得分為 ${score * 10} 分。必須達到 100 分才能算合格。請重新複習上方規範並再次挑戰。`, false);
+            }
+        }
+
+        // --- Canvas Simulator Logic ---
+        const canvas = document.getElementById('sim-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Simulation State
+        let currentSim = 'rotary'; // 'rotary' or 'lift'
+        let isGuardActive = false;
+        let isLockActive = false;
+        let animationId;
+        
+        // Resize canvas correctly
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        
+        // --- Rotary Sim Variables ---
+        let angle = 0;
+        let particles = [];
+        
+        // --- Lift Sim Variables ---
+        let liftHeight = 0;
+        let maxLift = 150;
+        let isLifting = false;
+        let isDropping = false; // simulating hydraulic failure if no lock
+        
+        function switchSim(type) {
+            currentSim = type;
+            
+            // UI Toggle
+            document.getElementById('btn-sim-rotary').className = type === 'rotary' 
+                ? 'px-4 py-2 text-sm font-medium rounded bg-amber-500 text-black shadow transition w-1/2' 
+                : 'px-4 py-2 text-sm font-medium rounded text-gray-600 hover:text-gray-900 transition w-1/2';
+                
+            document.getElementById('btn-sim-lift').className = type === 'lift' 
+                ? 'px-4 py-2 text-sm font-medium rounded bg-amber-500 text-black shadow transition w-1/2' 
+                : 'px-4 py-2 text-sm font-medium rounded text-gray-600 hover:text-gray-900 transition w-1/2';
+                
+            document.getElementById('control-rotary').style.display = type === 'rotary' ? 'block' : 'none';
+            document.getElementById('control-lift').style.display = type === 'lift' ? 'block' : 'none';
+
+            // Reset states
+            if(type === 'lift') {
+                liftHeight = 0;
+                document.getElementById('toggle-lock').checked = false;
+                isLockActive = false;
+                updateLiftStatus();
+            } else {
+                particles = [];
+            }
+        }
+
+        function toggleGuard(val) {
+            isGuardActive = val;
+            const status = document.getElementById('rotary-status');
+            if(val) {
+                status.innerText = "✓ 防護罩已啟用，安全隔離切屑。";
+                status.className = "text-green-600 font-bold text-sm";
+            } else {
+                status.innerText = "⚠ 警告：防護罩未關閉，存在噴濺風險！";
+                status.className = "text-red-600 font-bold animate-pulse text-sm";
+            }
+        }
+
+        function toggleLock(val) {
+            isLockActive = val;
+            updateLiftStatus();
+        }
+
+        function startLift(dir) {
+            isLifting = true;
+        }
+        function stopLift() {
+            isLifting = false;
+        }
+
+        function updateLiftStatus() {
+            const status = document.getElementById('lift-status');
+            if(isLockActive) {
+                status.innerText = "✓ 機械安全鎖已嚙合，系統鎖定安全。";
+                status.className = "text-green-600 font-bold text-sm";
+            } else {
+                status.innerText = "⚠ 警告：僅依賴液壓，未啟動機械鎖！有墜落風險。";
+                status.className = "text-red-600 font-bold animate-pulse text-sm";
+            }
+        }
+
+        function drawRotary() {
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2 + 20;
+            const radius = 60;
+            
+            // Draw machine body
+            ctx.fillStyle = '#9CA3AF'; // gray-400
+            ctx.fillRect(cx - 150, cy + radius + 10, 300, 150);
+            ctx.fillStyle = '#6B7280';
+            ctx.fillRect(cx - 120, cy - radius - 50, 240, 50);
+
+            // Draw rotating chuck
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(angle);
+            ctx.fillStyle = '#D1D5DB'; // gray-300
+            ctx.beginPath();
+            ctx.arc(0, 0, radius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Jaws
+            ctx.fillStyle = '#374151';
+            for(let i=0; i<3; i++) {
+                ctx.rotate((Math.PI * 2) / 3);
+                ctx.fillRect(radius - 15, -10, 20, 20);
+            }
+            ctx.restore();
+            
+            // Workpiece
+            ctx.fillStyle = '#F3F4F6';
+            ctx.fillRect(cx - 10, cy - 10, 20, 20);
+
+            angle += 0.15;
+
+            // Generate particles (chips)
+            if (Math.random() < 0.3) {
+                particles.push({
+                    x: cx,
+                    y: cy,
+                    vx: (Math.random() - 0.5) * 15,
+                    vy: -Math.random() * 10 - 2,
+                    size: Math.random() * 4 + 2,
+                    life: 1.0,
+                    color: Math.random() > 0.5 ? '#FCD34D' : '#FCA5A5' // hot chips
+                });
+            }
+
+            // Draw and update particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.5; // gravity
+                p.life -= 0.02;
+
+                // Collision with guard
+                if (isGuardActive) {
+                    const dx = p.x - cx;
+                    const dy = p.y - cy;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    // Guard radius is approx 110
+                    if (dist > 100 && dy < 0) {
+                        p.vx *= -0.5; // bounce
+                        p.vy *= 0.5;
+                        p.x += p.vx; // push back slightly to prevent sticking
+                    }
+                }
+
+                if (p.life <= 0 || p.y > canvas.height) {
+                    particles.splice(i, 1);
+                } else {
+                    ctx.fillStyle = `rgba(255, 200, 0, ${p.life})`;
+                    ctx.fillRect(p.x, p.y, p.size, p.size);
+                }
+            }
+
+            // Draw Safety Guard
+            if (isGuardActive) {
+                ctx.strokeStyle = 'rgba(52, 211, 153, 0.5)'; // emerald tinted glass
+                ctx.fillStyle = 'rgba(52, 211, 153, 0.2)';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.arc(cx, cy, 110, Math.PI, Math.PI*2);
+                ctx.fill();
+                ctx.stroke();
+                
+                // Guard rim
+                ctx.strokeStyle = '#10B981';
+                ctx.lineWidth = 6;
+                ctx.beginPath();
+                ctx.arc(cx, cy, 110, Math.PI, Math.PI*2);
+                ctx.stroke();
+            } else {
+                // Outline to show where guard would be
+                ctx.strokeStyle = 'rgba(239, 68, 68, 0.3)'; // red outline
+                ctx.setLineDash([5, 5]);
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(cx, cy, 110, Math.PI, Math.PI*2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+        }
+
+        function drawLift() {
+            const cx = canvas.width / 2;
+            const groundY = canvas.height - 30;
+            const pillarDist = 120;
+            
+            // Logic update
+            if(isLifting && liftHeight < maxLift && !isLockActive) {
+                liftHeight += 2;
+            } else if (!isLifting && !isLockActive && liftHeight > 0) {
+                // Hydraulic slow leak simulation
+                if(Math.random() < 0.05) liftHeight -= 1; 
+                
+                // Sudden drop danger if very high and not locked (exaggerated for effect)
+                if(liftHeight > 100 && Math.random() < 0.01) {
+                    liftHeight -= 15; // jerk
+                }
+                // floor constraint
+                if(liftHeight < 0) liftHeight = 0;
+            }
+
+            // Draw Environment
+            ctx.fillStyle = '#E5E7EB'; // Floor (gray-200)
+            ctx.fillRect(0, groundY, canvas.width, 30); 
+
+            // Draw Pillars (Two-post lift)
+            ctx.fillStyle = '#F59E0B'; // amber-500
+            ctx.fillRect(cx - pillarDist - 20, groundY - 250, 40, 250);
+            ctx.fillRect(cx + pillarDist - 20, groundY - 250, 40, 250);
+
+            // Draw Lock Mechanisms on pillars
+            const lockInterval = 30;
+            for(let y = groundY - 50; y > groundY - 250; y -= lockInterval) {
+                ctx.fillStyle = '#000';
+                ctx.fillRect(cx - pillarDist + 15, y, 5, 10);
+                ctx.fillRect(cx + pillarDist - 20, y, 5, 10);
+            }
+
+            // Platform / Arms
+            const armY = groundY - 20 - liftHeight;
+            ctx.fillStyle = '#4B5563';
+            ctx.fillRect(cx - pillarDist, armY, pillarDist*2, 10);
+            
+            // Draw Safety Lock engaging
+            if (isLockActive) {
+                ctx.fillStyle = '#10B981'; // Green active lock
+                // Snap platform down slightly to lock position
+                let lockedY = groundY - 20 - Math.floor(liftHeight / lockInterval) * lockInterval;
+                ctx.beginPath();
+                // Left lock
+                ctx.moveTo(cx - pillarDist + 20, armY + 10);
+                ctx.lineTo(cx - pillarDist + 40, armY + 10);
+                ctx.lineTo(cx - pillarDist + 20, armY + 25);
+                ctx.fill();
+                // Right lock
+                ctx.beginPath();
+                ctx.moveTo(cx + pillarDist - 20, armY + 10);
+                ctx.lineTo(cx + pillarDist - 40, armY + 10);
+                ctx.lineTo(cx + pillarDist - 20, armY + 25);
+                ctx.fill();
+            }
+
+            // Draw Car
+            const carY = armY - 60;
+            
+            // Tires
+            ctx.fillStyle = '#374151'; // dark gray instead of pure black for light theme
+            ctx.beginPath(); ctx.arc(cx - 70, carY + 60, 20, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(cx + 70, carY + 60, 20, 0, Math.PI*2); ctx.fill();
+            
+            // Car Body
+            ctx.fillStyle = '#3B82F6'; // Blue car
+            ctx.beginPath();
+            ctx.moveTo(cx - 100, carY + 60);
+            ctx.lineTo(cx - 110, carY + 30);
+            ctx.lineTo(cx - 60, carY);
+            ctx.lineTo(cx + 40, carY);
+            ctx.lineTo(cx + 100, carY + 30);
+            ctx.lineTo(cx + 110, carY + 60);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Windows
+            ctx.fillStyle = '#D1D5DB';
+            ctx.beginPath();
+            ctx.moveTo(cx - 50, carY + 5);
+            ctx.lineTo(cx, carY + 5);
+            ctx.lineTo(cx, carY + 30);
+            ctx.lineTo(cx - 80, carY + 30);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.moveTo(cx + 10, carY + 5);
+            ctx.lineTo(cx + 35, carY + 5);
+            ctx.lineTo(cx + 70, carY + 30);
+            ctx.lineTo(cx + 10, carY + 30);
+            ctx.closePath();
+            ctx.fill();
+
+            // Warning Effect if high and unlocked
+            if (liftHeight > 50 && !isLockActive) {
+                if (Math.floor(Date.now() / 200) % 2 === 0) {
+                    ctx.fillStyle = 'rgba(239, 68, 68, 0.1)'; // lighter red wash for light mode
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#DC2626';
+                    ctx.font = "20px Inter";
+                    ctx.textAlign = "center";
+                    ctx.fillText("危險：未上鎖！", cx, groundY - 200);
+                }
+            } else if (isLockActive) {
+                ctx.fillStyle = '#059669'; // deeper green for light bg
+                ctx.font = "20px Inter";
+                ctx.textAlign = "center";
+                ctx.fillText("安全鎖定", cx, groundY - 200);
+            }
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (currentSim === 'rotary') {
+                drawRotary();
+            } else if (currentSim === 'lift') {
+                drawLift();
+            }
+
+            animationId = requestAnimationFrame(gameLoop);
+        }
+
+        // Init
+        window.onload = () => {
+            resizeCanvas();
+            gameLoop();
+        };
+
+    </script>
+</body>
+</html>
